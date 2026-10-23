@@ -5,28 +5,24 @@
     android:orientation="vertical"
     android:padding="12dp"
     android:layout_marginBottom="8dp"
-    android:background="#F5F5F5">
+    android:background="#F0F0F0">
 
     <TextView
         android:id="@+id/tvName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:text="Ingredient Name" />
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/tvQuantity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:text="Quantity: 2 pieces" />
+        android:textSize="14sp"/>
 
     <TextView
         android:id="@+id/tvExpiry"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:text="Expiry: 2026-11-01" />
-
+        android:textSize="14sp"/>
 </LinearLayout>

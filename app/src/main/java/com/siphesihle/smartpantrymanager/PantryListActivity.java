@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.Button;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,7 +13,6 @@ public class PantryListActivity extends AppCompatActivity {
     private DatabaseHelper dbHelper;
     private RecyclerView recyclerView;
     private PantryAdapter adapter;
-    private Button btnAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,29 +21,35 @@ public class PantryListActivity extends AppCompatActivity {
 
         dbHelper = new DatabaseHelper(this);
         recyclerView = findViewById(R.id.recyclerViewPantry);
-        btnAdd = findViewById(R.id.btnAddIngredient);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        loadPantryItems();
+        findViewById(R.id.btnAddIngredient).setOnClickListener(v ->
+                startActivity(new Intent(this, AddEditIngredientActivity.class)));
 
-        btnAdd.setOnClickListener(v -> {
-            // We will create the Add/Edit screen next
-            // For now just show a message or leave empty
-        });
+        findViewById(R.id.btnSuggested).setOnClickListener(v ->
+                startActivity(new Intent(this, SuggestedRecipesActivity.class)));
+
+        findViewById(R.id.btnSettings).setOnClickListener(v ->
+                startActivity(new Intent(this, SettingsActivity.class)));
     }
 
-    private void loadPantryItems() {
+    private void loadItems() {
         Cursor cursor = dbHelper.getAllPantryItems();
-        adapter = new PantryAdapter(cursor, id -> {
-            // Later we will open the edit screen here
-        });
-        recyclerView.setAdapter(adapter);
+        if (adapter == null) {
+            adapter = new PantryAdapter(cursor, id -> {
+                Intent i = new Intent(this, AddEditIngredientActivity.class);
+                i.putExtra("ITEM_ID", id);
+                startActivity(i);
+            });
+            recyclerView.setAdapter(adapter);
+        } else {
+            adapter.swapCursor(cursor);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        loadPantryItems(); // Refresh the list when coming back
+        loadItems();
     }
 }
